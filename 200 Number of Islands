@@ -1,0 +1,43 @@
+class Solution {
+    private static final List<int[]> DIRECTIONS = Arrays.asList(
+	    new int[]{1,0},
+	    new int[]{-1,0},
+	    new int[]{0,1},
+	    new int[]{0,-1}
+        );
+    
+    public int numIslands(char[][] grid) {
+        //Loop all points and BFS each island, set the visites island as 0
+        int island = 0;
+        Queue<int[]> q = new LinkedList<>();
+        
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] == '1'){
+                    island++;
+                    grid[i][j] = '0';
+                    
+                    q.add(new int[]{i, j});
+                    while(!q.isEmpty()){
+                        int[] cur = q.poll();
+                        int m = cur[0];
+                        int n = cur[1];
+                        
+                        for(int[] directions : DIRECTIONS){
+                            int r = m + directions[0];
+                            int c = n + directions[1];
+                            if(r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || grid[r][c] == '0')
+                                continue;
+                            q.add(new int[]{r, c});
+                            grid[r][c] = '0';
+                        }
+                    }
+                    
+                    
+                }
+                
+            }
+        }  
+        return island;
+    }
+}
