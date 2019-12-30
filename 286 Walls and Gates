@@ -1,0 +1,107 @@
+Approach #1 Brute Force (Time Limit Exceeded)
+Implement a breadth-first search from each empty room to its nearest gate. 
+While doing the search, use a 2D array called ‘distance’ to keep track of the distance from the starting point. It also implicitly tell us whether a position had been visited so it won’t be inserted into the queue again.
+
+
+class Solution {
+    private static final int EMPTY = Integer.MAX_VALUE;
+    private static final int GATE = 0;
+    private static final int WALL = -1;
+    private static final List<int[]> DIRECTIONS = Arrays.asList(
+	new int[]{1,0},
+	new int[]{-1,0},
+	new int[]{0,1},
+	new int[]{0,-1}
+);
+    
+    public void wallsAndGates(int[][] rooms) {
+        if(rooms.length == 0) return;
+        for(int row = 0; row < rooms.length; row++){
+            for(int col = 0; col < rooms[0].length; col++){
+                if(rooms[row][col] == EMPTY){
+                    rooms[row][col] = bfs(rooms, row, col);
+                }
+            }
+        }
+        
+    }
+    
+    public int bfs(int[][] rooms, int startRow, int startCol){
+        Queue<int[]> q = new LinkedList<>();
+        int m = rooms.length;
+        int n = rooms[0].length;
+        int[][] distance = new int[m][n];
+        q.add(new int[]{startRow, startCol});
+        
+        while(!q.isEmpty()){
+            int[] point = q.poll();
+            int row = point[0];
+            int col = point[1];
+            for(int[] direction : DIRECTIONS){
+                int r = row + direction[0];
+                int c = col + direction[1];
+                if(r < 0 || c < 0 || r >= m || c >= n || rooms[r][c] == WALL || distance[r][c] != 0){
+                    continue;
+                }
+                distance[r][c] = distance[row][col] + 1;
+                if(rooms[r][c] == GATE){
+                    return distance[r][c];
+                }
+                q.add(new int[]{r,c});
+            }
+            
+            
+            
+        }
+        return Integer.MAX_VALUE;
+    }
+}
+
+
+Complexity analysis
+Time complexity: O(m^2n^2). For each point in the m*n size grid, the gate could be at most m*n steps away;
+
+
+Approach #2 BFS from gate to rooms (Time Limit Exceeded)
+BFS from gates to empty rooms, starting from add gates to queue;
+
+class Solution {
+    private static final int EMPTY = Integer.MAX_VALUE;
+    private static final int GATE = 0;
+    private static final int WALL = -1;
+    private static final List<int[]> DIRECTIONS = Arrays.asList(
+	new int[]{1,0},
+	new int[]{-1,0},
+	new int[]{0,1},
+	new int[]{0,-1}
+);
+    
+    //bfs from gates to empty rooms, starting from add gates to queue;
+    public void wallsAndGates(int[][] rooms) {
+        Queue<int[]> q = new LinkedList<>();
+        if(rooms.length == 0) return;
+        for(int row = 0; row < rooms.length; row++){
+            for(int col = 0; col < rooms[0].length; col++){
+                if(rooms[row][col] == GATE){
+                    q.add(new int[]{row, col});
+                }
+            }
+        }
+        
+        while(!q.isEmpty()){
+            int[] cur = q.poll();
+            int m = cur[0];
+            int n = cur[1];
+            for(int[] direction : DIRECTIONS){
+                int r = m + direction[0];
+                int c = n + direction[1];
+                if(r < 0 || c < 0 || r >= rooms.length || c >= rooms[0].length || rooms[r][c] != EMPTY)
+                    continue;
+                rooms[r][c] = rooms[m][n] + 1;
+                q.add(new int[]{r, c});
+            } 
+        }
+    }
+}
+
+Time complexity: O(mn). Once a room’s distance is set, it is marked as visited, which means each room is visited at most once. Therefore the time complexity does not depend on the number of gates.
