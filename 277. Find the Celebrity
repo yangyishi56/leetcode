@@ -1,0 +1,21 @@
+Approach #1 
+First find the candidate then verify the candidate
+
+/* The knows API is defined in the parent class Relation.
+      boolean knows(int a, int b); */
+
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        int ans = 0;
+        for(int i = 1; i < n; i++){
+            if(knows(ans, i)) ans = i;
+        }
+        for(int i = 0; i < ans; i++){
+            if(!knows(i, ans) || knows(ans, i)) return -1;
+        }
+        for(int i = ans + 1; i < n; i++){
+            if(!knows(i, ans)) return -1;
+        }
+        return ans;
+    }
+}
