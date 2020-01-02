@@ -1,0 +1,51 @@
+Approach #1
+Two arrays to store elements in secret and guess seperately
+
+class Solution {
+    public String getHint(String secret, String guess) {
+        int[] se = new int[10];
+        int[] gu = new int[10];
+        int bulls = 0;
+        int cows = 0;
+        
+        for(int i = 0; i < secret.length(); i++){
+            int s = Character.getNumericValue(secret.charAt(i));
+            int g = Character.getNumericValue(guess.charAt(i));
+            if(s == g) bulls++;
+            else{
+                se[s]++;
+                gu[g]++;
+            }
+        }
+        
+        for(int i = 0; i < 10; i ++){
+            if(gu[i] <= se[i]) cows += gu[i];
+            else cows += se[i];
+        }
+        
+        return bulls + "A" + cows + "B";
+    }
+}
+
+Approach #2 
+One array
+
+class Solution {
+    public String getHint(String secret, String guess) {
+        int[] a = new int[10];
+        int bulls = 0;
+        int cows = 0;
+        for(int i = 0; i < secret.length(); i++){
+            int s = Character.getNumericValue(secret.charAt(i));
+            int g = Character.getNumericValue(guess.charAt(i));
+            if(s == g) bulls++;
+            else{
+                if(a[s] < 0) cows++;
+                a[s]++;
+                if(a[g] > 0) cows++;
+                a[g]--;
+            }
+        }
+        return bulls + "A" + cows + "B";
+    }
+}
