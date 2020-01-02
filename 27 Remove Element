@@ -1,0 +1,36 @@
+Approach #1
+Move the non-val element to the front of the array;
+
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int i = 0;
+        for(int j = 0;j < nums.length; j ++){
+            if(nums[j] != val){
+                nums[i] = nums[j];
+                i++;   
+            }
+        }
+        return i;
+        
+    }
+}
+
+Approach #2
+Swap the val element to the end of the array;reduce the size of array after each swap;Note how to deal with the swapped element still equal to the val;
+
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int l = nums.length;
+        int cur = 0;
+        
+        while(cur < l){
+            if(nums[cur] == val){
+                nums[cur] = nums[l - 1];
+                l--;
+            }else{
+                cur++;
+            }
+        }
+        return cur;
+    }
+}
