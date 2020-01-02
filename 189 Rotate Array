@@ -1,0 +1,34 @@
+Wrong answer:
+
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int[] ans = new int[nums.length];
+        int l = nums.length;
+        int x = 0;
+        for(int i = l - k%l; i < l; i++){
+            ans[x++] = nums[i];
+        }
+        for(int i = 0; i < l - k%l; i++){
+            ans[x++] = nums[i];
+        }
+        nums = ans;       //!! only reference nums point to ans object not the originl nums;
+    }
+}
+
+
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int[] ans = new int[nums.length];
+        int l = nums.length;
+        int x = 0;
+        for(int i = l - k%l; i < l; i++){
+            ans[x++] = nums[i];
+        }
+        for(int i = 0; i < l - k%l; i++){
+            ans[x++] = nums[i];
+        }
+        for(int i = 0; i < l; i++){
+            nums[i] = ans[i];
+        }
+    }
+}
