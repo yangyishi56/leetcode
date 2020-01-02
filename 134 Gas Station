@@ -1,0 +1,22 @@
+Two observation:
+If sum[gas] < sum[cost] return -1;
+If A-B is impossible(Current remain at B < 0), any point between A-B cannot as a start point to reach B.
+
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int curRemain = 0;
+        int ans = 0;
+        int total = 0;
+    
+        for(int i = 0; i < gas.length; i++){
+            curRemain += gas[i] - cost[i];
+            total +=gas[i] -cost[i];
+            if(curRemain < 0){
+                ans = i + 1;
+                curRemain = 0;
+            }
+        }   
+        if(total < 0) return -1;
+        return ans;
+    }
+}
