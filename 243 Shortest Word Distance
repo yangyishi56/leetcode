@@ -1,0 +1,40 @@
+Approach #1 Brute Force
+Notice when comparing two strings, not using '==' buut string1.equals(string2);
+class Solution {
+    public int shortestDistance(String[] words, String word1, String word2) {
+        int n = words.length;
+        int ans = n;
+        for(int i = 0; i < n; i++){
+            if(words[i].equals(word1)){
+                for(int j = 0; j < n; j++){
+                    if(words[j].equals(word2)) ans = Math.min(ans, Math.abs(i - j));
+                }
+            } 
+        }
+        return ans;
+    }
+}
+
+
+Approach #2 Use to point to store the most recent occurrence
+
+class Solution {
+    public int shortestDistance(String[] words, String word1, String word2) {
+        int i1 = -1;
+        int i2 = -1;
+        int n = words.length;
+        int ans = n;
+        for(int i = 0; i < n; i++){
+            if(words[i].equals(word1)){
+                i1 = i;
+            }
+            if(words[i].equals(word2)){
+                i2 = i;
+            }
+            if(i1 !=-1 && i2 != -1){
+                ans = Math.min(ans, Math.abs(i1 - i2));
+            }
+        }
+        return ans;
+    }
+}
