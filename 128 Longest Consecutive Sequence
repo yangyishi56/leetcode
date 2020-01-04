@@ -1,0 +1,49 @@
+Approach #1
+o(nlogn)
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        Arrays.sort(nums);
+        int count = 1;
+        int ans = 0;
+        if(nums.length == 1) return 1;
+        if(nums.length == 0) return 0;
+        for(int i = 0; i < nums.length - 1; i++){
+            if(nums[i + 1] == nums[i] + 1){
+                count++;
+            }else if(nums[i + 1] == nums[i]){
+                continue;
+            }else{
+                ans = Math.max(ans, count);
+                count = 1;
+            } 
+        }
+        return Math.max(ans, count);
+    }
+}
+
+Approach #2
+o(n)
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> s = new HashSet<Integer>();
+        int ans = 0;
+        for(int num : nums){
+            s.add(num);
+        }
+        for(int num : s){
+            if(!s.contains(num - 1)){
+                int currentnum = num;
+                int currentstreak = 1;
+                
+                while(s.contains(currentnum + 1)){
+                    currentnum += 1;
+                    currentstreak += 1;
+                }
+                
+                ans = Math.max(currentstreak, ans);
+                
+            }
+        }
+        return ans;
+    }
+}
