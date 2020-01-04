@@ -1,0 +1,102 @@
+https://www.cnblogs.com/logosg/p/7979690.html
+每一坐标i上存多少水是由 1.其自身高度 2.它左边的最高高度left_most 3.它右边的最高高度right_most三种因素决定的。
+
+当 min{ left_most, right_most} 小于或等于其自身高度时，它能存的水就是0，比如array[1]=1,其left_most= array[0]=0, 其right_most=array[7]=3, min{left_most, right_most}=left_most=0< height= array[1]=1，这也就是说坐标1 存不了水。
+
+当min{ left_most,right_most} 大于其自身高度时，这时这三者间出现了“两高夹一矮”的情况，故其能存水，而且其存水数= min{left_most,right_most} - height。
+
+Approach #1
+Traverse all element, for each element traverse the array again to find the rightMax and leftMax.
+complex:o(n2)
+class Solution {
+    public int trap(int[] height) {
+        int l = height.length;
+        int leftMax = 0;
+        int rightMax = 0;
+        int ans = 0;
+        
+        for(int i = 1; i < l; i++){
+            leftMax = 0;
+            rightMax = 0;
+            for(int j = i - 1; j >= 0; j--){
+                leftMax = Math.max(leftMax, height[j]);
+            }
+            for(int k = i + 1; k < l; k++){
+                rightMax = Math.max(rightMax, height[k]);
+            }
+            if(height[i] >= Math.min(rightMax, leftMax)){
+                ans += 0;
+            }else{
+                ans += Math.min(rightMax, leftMax) - height[i];
+            }
+        }
+        
+        return ans;
+    }
+}
+
+Approach #2 complex: o(n) 
+
+class Solution {
+    public int trap(int[] height) {
+        int l = height.length;
+        int[] leftMax = new int[l];
+        int[] rightMax = new int[l];
+        int ans = 0;
+        if(l == 0) return 0;
+        leftMax[0] = 0;
+        for(int i = 1; i < l; i++){
+           leftMax[i] = Math.max(leftMax[i - 1], height[i - 1]); 
+        }
+        rightMax[l - 1] = 0;
+        for(int i = l - 2; i >=0; i--){
+            rightMax[i] = Math.max(rightMax[i + 1], height[i + 1]);
+        }
+        for(int i = 0; i < l; i++){
+            if(height[i] >= Math.min(rightMax[i], leftMax[i])) ans += 0;
+            else ans += Math.min(rightMax[i], leftMax[i]) - height[i];
+        }
+        
+        return ans;
+    }
+}
+
+
+Approach #3 Tow pointers 1
+https://www.bilibili.com/video/av18241289/
+class Solution {
+    public int trap(int[] height) {
+        int l = height.length;
+        int lmax = 0;
+        int rmax = 0;
+        int left = 0;
+        int right = l - 1;
+        int ans = 0;
+        while(left < right){
+            lmax = Math.max(height[left], lmax);
+            rmax = Math.max(height[right], rmax);
+            if(lmax < rmax){
+                ans += lmax - height[left];
+                left++;
+            }else{
+                ans += rmax - height[right];
+                right--;
+            }
+        }
+        
+        return ans;
+    }
+}
+
+
+Approach #4 Two pointers 2
+https://blog.csdn.net/XX_123_1_RJ/article/details/81048041
+方法二， 使用双指针法，在左右两端分别设置指针left, right，并且用 left_max， right_max 记录走过之后的最长最高的边。例如，left_max 就是指针left 左边最长的线，right_max 同理。
+（1）如果 height[left] < height[right]，就是左指针指向的数字 < 右指针指向的数字（现在操作左指针）,  说明此时，左边已经走过的位置都小于 height[right]，通俗的讲，现在left指针位置的左右两边桶的短板，一定存在于左边，又因为 left_max记录了当前left位置的左边最高的那个边，所以当前left位置的容量就是只需考虑left_max ， height[left] 这个两个值的大小即可得出。
+
+问题：为什么说左边已经走过的位置都小于 height[right]？因为两个指针的移动条件是，那个指针小就移动那一个。
+
+（2）如果height[left] >= height[right]，同理（1）。直到两个指针相遇。
+————————————————
+版权声明：本文为CSDN博主「GrowthDiary007」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/XX_123_1_RJ/article/details/81048041
