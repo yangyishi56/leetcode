@@ -1,0 +1,27 @@
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned) {
+        HashSet<String> banne = new HashSet<>();
+        HashMap<String, Integer> words = new HashMap<>();
+        String msc = "";
+        int msccount = -1;
+        
+        String[] Arr = paragraph.toLowerCase().split(" |!|\\?|'|,|;|\\.");
+        
+        for(String ban : banned){
+            banne.add(ban);
+        }
+        
+        for(String s : Arr){
+            if(!banne.contains(s) && !s.equals("")){
+                words.put(s, words.getOrDefault(s, 0) + 1);
+                
+                if(words.get(s) > msccount){
+                    msc = s;
+                    msccount = words.get(s);
+                } 
+            }
+        }
+        return msc;
+        
+    }
+}
