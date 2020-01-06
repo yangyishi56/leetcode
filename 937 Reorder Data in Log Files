@@ -1,0 +1,92 @@
+class Solution {
+    public String[] reorderLogFiles(String[] logs) {
+        Comparator<String> myCmp = new Comparator<String>(){
+            @Override
+            public int compare(String s1, String s2){
+                String[] split1 = s1.split(" ", 2);
+                String[] split2 = s2.split(" ", 2);
+                
+                boolean isDigit1 = Character.isDigit(split1[1].charAt(0));
+                boolean isDigit2 = Character.isDigit(split2[1].charAt(0));
+                
+                if(!isDigit1 && !isDigit2){
+                    //both are letter logs
+                    int cmp = split1[1].compareTo(split2[1]);
+                    if(cmp == 0) return split1[0].compareTo(split2[0]);
+                    else return cmp;
+                }else if(isDigit1 && isDigit2){
+                    //both are digit
+                    return 0;
+                }else if(isDigit1 && !isDigit2){
+                    //first is digit and second is letter, bring letter forward 
+                    return 1;
+                }else{
+                    //first is letter and second is digit
+                    return -1;
+                }
+                  
+            }  
+        };
+        Arrays.sort(logs, myCmp);
+        return logs;   
+    }
+}
+
+Reference:
+
+https://www.cnblogs.com/liuliu5151/p/11026126.html
+https://www.geeksforgeeks.org/comparator-interface-java/
+https://stackoverflow.com/questions/7347612/java-overriding-methods-when-creating-new-instance-of-a-class
+https://www.roseindia.net/javatutorials/anonymous_innerclassestutorial.shtml
+
+class Solution {
+    public String[] reorderLogFiles(String[] logs) {
+        Arrays.sort(logs, (s1, s2) -> {
+            String[] split1 = s1.split(" ", 2);
+            String[] split2 = s2.split(" ", 2);
+
+            boolean isDigit1 = Character.isDigit(split1[1].charAt(0));
+            boolean isDigit2 = Character.isDigit(split2[1].charAt(0));
+
+            if(!isDigit1 && !isDigit2) {
+                // both letter-logs. 
+                int comp = split1[1].compareTo(split2[1]);
+                if (comp == 0) return split1[0].compareTo(split2[0]);
+                else return comp;
+            } else if (isDigit1 && isDigit2) {
+                // both digit-logs. So keep them in original order
+                return 0; 
+            } else if (isDigit1 && !isDigit2) {
+                // first is digit, second is letter. bring letter to forward.
+                return 1;
+            } else {
+                //first is letter, second is digit. keep them in this order.
+                return -1; 
+            }
+        });
+        return logs;
+    }
+}
+
+class Solution {
+      public String[] reorderLogFiles(String[] logs) {
+       Comparator<String> myComp = new Comparator<String>() {
+         @Override
+         public int compare(String s1, String s2) {
+           String[] split1 = s1.split(" ", 2);
+           String[] split2 = s2.split(" ", 2);
+           boolean isDigit1 = Character.isDigit(split1[1].charAt(0));
+           boolean isDigit2 = Character.isDigit(split2[1].charAt(0));
+           if(!isDigit1 && !isDigit2) {             
+             int comp = split1[1].compareTo(split2[1]);
+             if(comp != 0)
+              return comp;
+              return split1[0].compareTo(split2[0]);
+           }
+             return isDigit1 ? (isDigit2 ? 0 : 1) : -1;
+         }
+       };
+       Arrays.sort(logs, myComp);
+       return logs;
+    }
+}
