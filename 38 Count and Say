@@ -1,0 +1,63 @@
+Approach #1
+
+class Solution {
+    public String countAndSay(int n) {
+        String str = "1";
+        
+        for(int i = 1; i < n; i++){
+            int count = 0;
+            char pre = '.';
+            StringBuilder s = new StringBuilder();
+            for(int j = 0; j < str.length(); j++){
+                if(pre == '.'){
+                    count++;
+                    pre = str.charAt(j);
+                }else if(str.charAt(j) == pre){
+                    count++;
+                }else{
+                    s.append(count + Character.toString(pre));
+                    count = 1;
+                    pre = str.charAt(j);
+                }
+            }
+            s.append(count + Character.toString(pre));
+            str = s.toString();
+        }
+        return str;
+        
+    }
+}
+
+
+Approach #2
+
+ public class Solution {
+    public String countAndSay(int n) {
+        String s = "1";
+        for(int i = 1; i < n; i++){
+            s = countIdx(s);
+        }
+        return s;
+    }
+    
+    public String countIdx(String s){
+        StringBuilder sb = new StringBuilder();
+        char c = s.charAt(0);
+        int count = 1;
+        for(int i = 1; i < s.length(); i++){
+            if(s.charAt(i) == c){
+                count++;
+            }
+            else
+            {
+                sb.append(count);
+                sb.append(c);
+                c = s.charAt(i);
+                count = 1;
+            }
+        }
+        sb.append(count);
+        sb.append(c);
+        return sb.toString();
+    }
+}
