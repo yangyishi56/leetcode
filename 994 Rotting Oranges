@@ -1,0 +1,50 @@
+class Solution {
+    private static final List<int[]> DIRECTIONS = Arrays.asList(
+	    new int[]{1,0},
+	    new int[]{-1,0},
+	    new int[]{0,1},
+	    new int[]{0,-1}
+    );
+    public int orangesRotting(int[][] grid) {
+        //bfs the grid
+        Queue<int[]> q = new LinkedList<>();
+        int time = -1;
+        int total = 0;
+        
+
+        
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] != 0) total++;
+                if(grid[i][j] == 2){
+                    q.add(new int[]{i, j});
+                }
+            }
+        }
+        if(total == 0) return 0;
+        
+        while(!q.isEmpty()){
+            time++;
+            int size = q.size();
+            for(int i = 0; i < size; i++){
+                int[] cur = q.poll();
+                total--;
+                int m = cur[0];
+                int n = cur[1];
+                for(int[] direction : DIRECTIONS){
+                    int r = m + direction[0];
+                    int c = n + direction[1];
+                    if(r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || grid[r][c] == 0 || grid[r][c] == 2)
+                        continue;
+                    grid[r][c] = 2;
+                    q.add(new int[]{r, c});
+                }
+                
+            }
+            
+        }   
+        
+        if(total != 0) return -1;
+        return time;
+    }
+}
