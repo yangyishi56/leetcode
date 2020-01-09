@@ -1,0 +1,42 @@
+Approach #1
+
+class Solution {
+    public int twoSumLessThanK(int[] A, int K) {
+        int sum = Integer.MIN_VALUE;
+        
+        for(int i = 0; i < A.length; i++){
+            for(int j = 0; j < A.length; j++){
+                if(A[i] + A[j] < K && A[i] + A[j] > sum) sum = A[i] + A[j];
+                if(sum == K - 1) break;
+            }
+        }
+        
+        if(sum == Integer.MIN_VALUE) return -1;
+        else return sum;
+    }
+}
+
+
+Approach#2
+
+class Solution {
+    public int twoSumLessThanK(int[] A, int K) {
+        int sum = Integer.MIN_VALUE;
+        int head = 0;
+        int tail = A.length - 1;
+        
+        Arrays.sort(A);
+        
+        while(head < tail){
+            if(A[head] + A[tail] < K){
+                sum = Math.max(A[head] + A[tail], sum);
+                head++;
+            }else{
+                tail--;
+            }
+        }
+        
+        if(sum != Integer.MIN_VALUE) return sum;
+        else return -1;
+    }
+}
