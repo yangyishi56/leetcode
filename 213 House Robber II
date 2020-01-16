@@ -1,0 +1,23 @@
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if(n == 0) return 0;
+        if(n == 1) return nums[0];
+        int[] rob_rf = new int[n];
+        int[] nrob_rf = new int[n];
+        int[] rob_nf = new int[n];
+        int[] nrob_nf = new int[n];
+        rob_rf[0] = nums[0];
+        
+        for(int i = 1; i < n; i++){
+            rob_rf[i] = nrob_rf[i - 1] + nums[i];
+            nrob_rf[i] = Math.max(rob_rf[i - 1], nrob_rf[i - 1]);
+            rob_nf[i] = nrob_nf[i - 1] + nums[i];
+            nrob_nf[i] = Math.max(rob_nf[i - 1], nrob_nf[i - 1]);
+        }
+        
+        return Math.max(rob_nf[n - 1], nrob_rf[n - 1]);
+        
+        
+    }
+}
