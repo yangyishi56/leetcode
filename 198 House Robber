@@ -1,0 +1,14 @@
+class Solution {
+    public int rob(int[] nums) {
+        int rob = 0;
+        int notRob = 0;
+        
+        for(int num : nums){
+            int preMax = Math.max(rob, notRob);
+            rob = notRob + num;
+            notRob = preMax;
+        }
+        
+        return Math.max(rob, notRob);
+    }
+}
