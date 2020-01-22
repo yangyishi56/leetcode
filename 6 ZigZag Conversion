@@ -1,0 +1,60 @@
+class Solution {
+    public String convert(String s, int numRows) {
+        char[] c = s.toCharArray();
+        int len = s.length();
+        //StringBuilder[] sb = new StringBuilder[numRows];
+        String[] sb = new String[numRows];
+        
+        for(int i = 0; i < numRows; i++){
+            sb[i] = "";
+        }
+        
+        int i = 0;
+        while(i < len){
+            for(int idx = 0; i < len && idx < numRows; idx++){
+                sb[idx] += c[i++];
+            }
+            for(int idx = numRows - 2; i < len && idx > 0; idx--){
+                sb[idx] += c[i++];
+            }
+        }
+        
+        for(int idx = 1; idx < sb.length; idx++){
+            sb[0] += sb[idx];
+        }
+        
+        return sb[0];
+    }
+}
+
+
+
+String builder:
+
+class Solution {
+    public String convert(String s, int numRows) {
+        char[] c = s.toCharArray();
+        int len = s.length();
+        StringBuilder[] sb = new StringBuilder[numRows];
+        
+        for(int i = 0; i < numRows; i++){
+            sb[i] = new StringBuilder();
+        }
+        
+        int i = 0;
+        while(i < len){
+            for(int idx = 0; i < len && idx < numRows; idx++){
+                sb[idx].append(c[i++]);
+            }
+            for(int idx = numRows - 2; i < len && idx > 0; idx--){
+                sb[idx].append(c[i++]);
+            }
+        }
+        
+        for(int idx = 1; idx < sb.length; idx++){
+            sb[0].append(sb[idx]);
+        }
+        
+        return sb[0].toString();
+    }
+}
