@@ -1,0 +1,31 @@
+class Solution {
+    public String largestNumber(int[] nums) {
+        if(nums == null || nums.length == 0) return "";
+        
+        //Convert int array to String array so we can sort later on
+        String[] s_num = new String[nums.length];
+        for(int i = 0; i < nums.length; i++){
+            s_num[i] = String.valueOf(nums[i]);
+        }
+        
+        //comparator to decide which string should come first in concatnation
+        Comparator<String> comp = new Comparator<>(){
+            @Override
+            public int compare(String s1, String s2)
+            {
+                String str1 = s1 + s2;
+                String str2 = s2 + s1;
+                return str2.compareTo(str1); //reverse order here, so we can append() later
+            }            
+        };
+        
+        Arrays.sort(s_num, comp);
+        if(s_num[0].charAt(0) == '0')
+                    return "0";
+        String ans = "";
+        for(String s : s_num){
+            ans += s;
+        }
+        return ans;    
+    }
+}
