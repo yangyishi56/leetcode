@@ -1,0 +1,19 @@
+class Solution {
+    public int jump(int[] nums) {
+        int n = nums.length;
+        int pos = 0;
+        int count = 0;
+        int cur = 0;
+        int pre = 0;
+        
+        while(cur < n - 1){
+            count++;
+            pre = cur;
+            while(pos <= pre){
+                cur = Math.max(cur, pos + nums[pos]);
+                pos++;
+            }  
+        }
+        return count;
+    }
+}
