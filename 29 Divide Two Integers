@@ -1,0 +1,34 @@
+class Solution {
+    public int divide(int dividend, int divisor) {
+        if(dividend == Integer.MIN_VALUE){
+            if(divisor == 1) return Integer.MIN_VALUE;
+            if(divisor == -1) return Integer.MAX_VALUE;
+        }
+        
+        long divid = (long) dividend;
+        long divis = (long) divisor;
+        
+        int sign = 1;
+        if(divid < 0){
+            sign = -sign;
+            divid = -divid;
+        }
+        
+        if(divis < 0){
+            sign = -sign;
+            divis = -divis;
+        }
+        
+        int res = 0;
+        while(divid >= divis){
+            int shift = 0;
+            while(divid >= divis << shift){
+                shift++;
+            }
+            res += (1 << (shift - 1));
+            divid -= (divis << (shift - 1));
+        }
+        return res*sign;
+        
+    }
+}
