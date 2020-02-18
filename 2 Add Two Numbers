@@ -1,0 +1,76 @@
+Wrong answer: (Doesn't work when input is too large)
+
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int num1 = convertToInt(l1);
+        int num2 = convertToInt(l2);
+        int sum = num1 + num2;
+        if(sum == 0) return new ListNode(0);
+        ListNode ans = new ListNode(sum%10);
+        sum = sum/10;
+        ListNode temp = ans;
+        while(sum > 0){
+            temp.next = new ListNode(sum%10);
+            temp = temp.next;
+            sum = sum/10;
+        }
+        return ans;
+        
+    }
+    
+    public int convertToInt(ListNode l){
+        int num = 0;
+        int bitCount = 1;
+        
+        while(l != null){
+            num += l.val * bitCount;
+            bitCount *= 10;
+            l = l.next;
+        }
+        
+        return num;
+    }
+}
+
+
+Solution:
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummyhead = new ListNode(0);    //dummyhead
+        int carry = 0;
+        ListNode p = l1, q = l2, curr = dummyhead;
+        
+        while(p != null || q != null){
+            int x = 0;
+            if(p != null) x = p.val;
+            
+            int y = 0;
+            if(q != null) y = q.val;
+            
+            int sum = x + y + carry;
+            carry = sum / 10;
+            
+            curr.next = new ListNode(sum % 10);
+            curr = curr.next;
+            
+            if(p != null) p = p.next;
+            if(q != null) q = q.next;
+        }
+        
+        if(carry > 0) curr.next = new ListNode(carry);
+        
+        return dummyhead.next;
+        
+    }
+}
+
+
